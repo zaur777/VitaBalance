@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VitalBalance AI</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+        }
+        .body-map-svg path {
+            transition: all 0.3s ease;
+        }
+        .organ-hotspot:hover {
+            filter: drop-shadow(0 0 8px rgba(34, 197, 94, 0.5));
+            cursor: pointer;
+        }
+        .organ-hotspot.active {
+            fill: #22c55e !important;
+        }
+        
+        @media print {
+            body { background: white !important; }
+            nav, footer, button, .no-print { display: none !important; }
+            .print-only { display: block !important; }
+            .shadow-xl, .shadow-lg, .shadow-sm { box-shadow: none !important; border: 1px solid #e2e8f0 !important; }
+            .bg-slate-50, .bg-green-50, .bg-amber-50 { background-color: transparent !important; border: 1px solid #e2e8f0 !important; }
+            .text-green-600 { color: #16a34a !important; }
+            .page-break { page-break-before: always; }
+        }
+        .print-only { display: none; }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
+    "@google/genai": "https://esm.sh/@google/genai@^1.40.0",
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
