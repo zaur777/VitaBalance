@@ -17,7 +17,11 @@ export const analyzeHealthData = async (
   assessments: OrganAssessment[],
   language: Language
 ): Promise<AssessmentResult> => {
-  const ai = new GoogleGenAI({ apiKey: process.env.API_KEY });
+  const apiKey = process.env.GEMINI_API_KEY;
+  if (!apiKey) {
+    throw new Error("GEMINI_API_KEY is not set. Please set it in your environment variables.");
+  }
+  const ai = new GoogleGenAI({ apiKey });
 
   const flaggedOrgans = assessments
     .filter(a => a.needsSupport)
