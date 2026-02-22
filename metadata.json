@@ -1,5 +1,5 @@
 {
-  "name": "VitalBalance AI",
+  "name": "VitaBalance AI",
   "description": "An interactive nutritional assessment tool that uses a visual body map and Gemini AI to determine supplement needs and provide healthy dietary recommendations.",
   "requestFramePermissions": []
 }

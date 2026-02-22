@@ -103,7 +103,7 @@ const ConsultationModal: React.FC<{ isOpen: boolean; onClose: () => void; t: any
 
 const App: React.FC = () => {
   const [lang, setLang] = useState<Language>('en');
-  const [step, setStep] = useState<number>(1);
+  const [step, setStep] = useState<number>(0);
   const [activeDayIndex, setActiveDayIndex] = useState<number>(0);
   const [showConsultationModal, setShowConsultationModal] = useState(false);
   const [profile, setProfile] = useState<UserProfile>({ 
@@ -119,6 +119,7 @@ const App: React.FC = () => {
   });
   
   const [selectedOrgans, setSelectedOrgans] = useState<Set<OrganType>>(new Set());
+  const [hoveredOrgan, setHoveredOrgan] = useState<OrganType | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [result, setResult] = useState<AssessmentResult | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -134,12 +135,22 @@ const App: React.FC = () => {
     });
   };
 
+  const updateConditionValue = (baseCondition: string, subValue: string) => {
+    setProfile(prev => {
+      const filtered = prev.chronicConditions.filter(c => !c.startsWith(baseCondition));
+      if (subValue === "") return { ...prev, chronicConditions: filtered };
+      return { ...prev, chronicConditions: [...filtered, `${baseCondition} (${subValue})`] };
+    });
+  };
+
   const toggleCondition = (condition: string) => {
     setProfile(prev => {
-      const conditions = prev.chronicConditions.includes(condition)
-        ? prev.chronicConditions.filter(c => c !== condition)
-        : [...prev.chronicConditions, condition];
-      return { ...prev, chronicConditions: conditions };
+      const exists = prev.chronicConditions.some(c => c.startsWith(condition));
+      if (exists) {
+        return { ...prev, chronicConditions: prev.chronicConditions.filter(c => !c.startsWith(condition)) };
+      } else {
+        return { ...prev, chronicConditions: [...prev.chronicConditions, condition] };
+      }
     });
   };
 
@@ -150,10 +161,10 @@ const App: React.FC = () => {
     const bmi = w / (h * h);
     let label = '';
     let color = '';
-    if (bmi < 18.5) { label = 'Underweight'; color = 'text-blue-500'; }
-    else if (bmi < 25) { label = 'Normal'; color = 'text-green-500'; }
-    else if (bmi < 30) { label = 'Overweight'; color = 'text-amber-500'; }
-    else { label = 'Obese'; color = 'text-red-500'; }
+    if (bmi < 18.5) { label = t.bmi_categories.underweight; color = 'text-blue-500'; }
+    else if (bmi < 25) { label = t.bmi_categories.normal; color = 'text-green-500'; }
+    else if (bmi < 30) { label = t.bmi_categories.overweight; color = 'text-amber-500'; }
+    else { label = t.bmi_categories.obese; color = 'text-red-500'; }
     return { bmi: bmi.toFixed(1), label, color };
   };
 
@@ -174,6 +185,81 @@ const App: React.FC = () => {
       setLoading(false);
     }
   };
+
+  const renderLandingPage = () => (
+    <div className="max-w-6xl mx-auto space-y-20 py-12 animate-in fade-in duration-700">
+      <div className="flex flex-col lg:flex-row items-center gap-12">
+        <div className="lg:w-1/2 space-y-8 text-center lg:text-left">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-green-50 text-green-700 rounded-full text-sm font-bold border border-green-100">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-green-500"></span>
+            </span>
+            Powered by Gemini AI
+          </div>
+          <h1 className="text-5xl lg:text-7xl font-black text-slate-900 leading-[1.1] tracking-tight">
+            {t.landing_title}
+          </h1>
+          <p className="text-xl text-slate-500 leading-relaxed max-w-xl mx-auto lg:mx-0">
+            {t.landing_subtitle}
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            <button 
+              onClick={() => setStep(1)}
+              className="px-8 py-5 bg-green-600 hover:bg-green-700 text-white font-black rounded-2xl shadow-2xl shadow-green-200 transition-all transform hover:-translate-y-1 active:scale-95 text-lg flex items-center justify-center gap-3"
+            >
+              {t.landing_start}
+              <i className="fas fa-arrow-right"></i>
+            </button>
+            <button 
+              onClick={() => setShowConsultationModal(true)}
+              className="px-8 py-5 bg-white hover:bg-slate-50 text-slate-700 font-bold rounded-2xl border border-slate-200 transition-all text-lg"
+            >
+              {t.consultation}
+            </button>
+          </div>
+        </div>
+        <div className="lg:w-1/2 relative">
+          <div className="absolute -inset-4 bg-green-500/10 rounded-[40px] blur-3xl"></div>
+          <div className="relative bg-white p-4 rounded-[40px] shadow-2xl border border-slate-100 transform lg:rotate-3">
+            <img 
+              src="https://picsum.photos/seed/health/800/600" 
+              alt="Health Analysis" 
+              className="rounded-[32px] w-full object-cover shadow-inner"
+              referrerPolicy="no-referrer"
+            />
+            <div className="absolute -bottom-6 -left-6 bg-white p-6 rounded-3xl shadow-xl border border-slate-50 animate-bounce duration-[3000ms]">
+              <div className="flex items-center gap-4">
+                <div className="w-12 h-12 bg-amber-100 rounded-2xl flex items-center justify-center text-amber-600">
+                  <i className="fas fa-bolt text-xl"></i>
+                </div>
+                <div>
+                  <p className="text-xs font-bold text-slate-400 uppercase">Vitality Score</p>
+                  <p className="text-xl font-black text-slate-800">98%</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {[
+          { icon: 'fa-map-marked-alt', color: 'bg-blue-100 text-blue-600', title: t.feature1_title, desc: t.feature1_desc },
+          { icon: 'fa-brain', color: 'bg-purple-100 text-purple-600', title: t.feature2_title, desc: t.feature2_desc },
+          { icon: 'fa-calendar-check', color: 'bg-green-100 text-green-600', title: t.feature3_title, desc: t.feature3_desc }
+        ].map((f, i) => (
+          <div key={i} className="bg-white p-8 rounded-3xl border border-slate-100 shadow-sm hover:shadow-xl transition-all group">
+            <div className={`w-14 h-14 ${f.color} rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform`}>
+              <i className={`fas ${f.icon}`}></i>
+            </div>
+            <h3 className="text-xl font-bold text-slate-800 mb-3">{f.title}</h3>
+            <p className="text-slate-500 leading-relaxed">{f.desc}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
 
   const renderStep1 = () => (
     <div className="max-w-2xl mx-auto space-y-6 animate-in fade-in duration-500 pb-12">
@@ -270,43 +356,69 @@ const App: React.FC = () => {
     </div>
   );
 
-  const renderStep2 = () => (
-    <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 animate-in slide-in-from-bottom-10 duration-500 pb-12">
-      <div className="lg:w-1/3 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 flex flex-col items-center">
-        <h3 className="text-xl font-bold text-slate-800 mb-2 text-center">{t.step2_title}</h3>
-        <p className="text-xs text-slate-400 mb-6 text-center">{t.step2_desc}</p>
-        <div className="w-full max-w-[300px] aspect-[2/5] relative">
-          <BodyOutline activeOrgan={undefined} onSelect={toggleOrgan} />
-          <style>{`
-            ${Array.from(selectedOrgans).map(organ => {
-              return `.organ-hotspot[onClick*="${organ}"] { fill: #22c55e !important; }`;
-            }).join(' ')}
-          `}</style>
+  const renderStep2 = () => {
+    const displayOrgan = hoveredOrgan || Array.from(selectedOrgans).pop();
+    const organInfo = displayOrgan ? {
+      name: t.organs[displayOrgan],
+      desc: t.organ_descriptions[displayOrgan]
+    } : null;
+
+    return (
+      <div className="max-w-6xl mx-auto flex flex-col lg:flex-row gap-8 animate-in slide-in-from-bottom-10 duration-500 pb-12">
+        <div className="lg:w-1/3 bg-white p-6 rounded-2xl shadow-xl border border-slate-100 flex flex-col items-center sticky top-24 h-fit">
+          <h3 className="text-xl font-bold text-slate-800 mb-2 text-center">{t.step2_title}</h3>
+          <p className="text-xs text-slate-400 mb-6 text-center">{t.step2_desc}</p>
+          <div className="w-full max-w-[300px] aspect-[2/5] relative mb-6">
+            <BodyOutline 
+              activeOrgan={hoveredOrgan || undefined} 
+              onSelect={toggleOrgan} 
+              onHover={setHoveredOrgan}
+              selectedOrgans={selectedOrgans}
+            />
+          </div>
+          
+          {organInfo && (
+            <div className="w-full p-4 bg-green-50 rounded-xl border border-green-100 animate-in fade-in slide-in-from-bottom-2 duration-300">
+              <h4 className="font-bold text-green-800 text-sm mb-1">{organInfo.name}</h4>
+              <p className="text-xs text-green-700 leading-relaxed">{organInfo.desc}</p>
+            </div>
+          )}
+        </div>
+
+        <div className="lg:w-2/3 space-y-6">
+          <div className="text-center md:text-left">
+            <h3 className="text-2xl font-bold text-slate-800">{t.support_selections}</h3>
+            <p className="text-slate-500">{t.support_desc}</p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {Object.values(OrganType).map((organ) => (
+              <div 
+                key={organ}
+                onMouseEnter={() => setHoveredOrgan(organ)}
+                onMouseLeave={() => setHoveredOrgan(null)}
+              >
+                <OrganCard 
+                  organ={organ} 
+                  isSelected={selectedOrgans.has(organ)} 
+                  onToggle={() => toggleOrgan(organ)} 
+                  lang={lang} 
+                />
+              </div>
+            ))}
+          </div>
+
+          <div className="flex gap-4 pt-4">
+            <button onClick={() => setStep(1)} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold py-4 rounded-xl transition-all">{t.back}</button>
+            <button onClick={() => setStep(3)} className="flex-[2] bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all">{t.next_medical}</button>
+          </div>
         </div>
       </div>
-
-      <div className="lg:w-2/3 space-y-6">
-        <div className="text-center md:text-left">
-          <h3 className="text-2xl font-bold text-slate-800">{t.support_selections}</h3>
-          <p className="text-slate-500">{t.support_desc}</p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {Object.values(OrganType).map((organ) => (
-            <OrganCard key={organ} organ={organ} isSelected={selectedOrgans.has(organ)} onToggle={() => toggleOrgan(organ)} lang={lang} />
-          ))}
-        </div>
-
-        <div className="flex gap-4 pt-4">
-          <button onClick={() => setStep(1)} className="flex-1 bg-slate-100 hover:bg-slate-200 text-slate-600 font-semibold py-4 rounded-xl transition-all">{t.back}</button>
-          <button onClick={() => setStep(3)} className="flex-[2] bg-green-600 hover:bg-green-700 text-white font-bold py-4 rounded-xl shadow-lg transition-all">{t.next_medical}</button>
-        </div>
-      </div>
-    </div>
-  );
+    );
+  };
 
   const renderStep3 = () => (
-    <div className="max-w-2xl mx-auto space-y-6 animate-in fade-in duration-500 pb-12">
+    <div className="max-w-4xl mx-auto space-y-6 animate-in fade-in duration-500 pb-12">
       <div className="text-center space-y-2">
         <h2 className="text-3xl font-bold text-slate-900">{t.step3_title}</h2>
         <p className="text-slate-500">{t.step3_desc}</p>
@@ -317,15 +429,58 @@ const App: React.FC = () => {
           <i className="fas fa-notes-medical text-green-500"></i> {t.medical_concerns}
         </h3>
         
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-          {CHRONIC_CONDITIONS_LIST.map((condition) => (
-            <button key={condition} onClick={() => toggleCondition(condition)} className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left ${profile.chronicConditions.includes(condition) ? 'bg-green-50 border-green-500 text-green-700 shadow-sm' : 'bg-white border-slate-100 text-slate-600 hover:border-slate-200'}`}>
-              <div className={`w-5 h-5 rounded flex items-center justify-center border ${profile.chronicConditions.includes(condition) ? 'bg-green-500 border-green-500 text-white' : 'border-slate-300'}`}>
-                {profile.chronicConditions.includes(condition) && <i className="fas fa-check text-[10px]"></i>}
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          {CHRONIC_CONDITIONS_LIST.map((condition) => {
+            const isSelected = profile.chronicConditions.some(c => c.startsWith(condition));
+            const selectedDetail = profile.chronicConditions.find(c => c.startsWith(condition));
+            const currentValue = selectedDetail?.match(/\((.*)\)/)?.[1] || "";
+            const subOptions = t.sub_options[condition] || [];
+
+            return (
+              <div key={condition} className="space-y-2">
+                <button 
+                  onClick={() => toggleCondition(condition)} 
+                  className={`w-full flex items-center gap-3 p-4 rounded-xl border-2 transition-all text-left ${isSelected ? 'bg-green-50 border-green-500 text-green-700 shadow-sm' : 'bg-white border-slate-100 text-slate-600 hover:border-slate-200'}`}
+                >
+                  <div className={`w-5 h-5 rounded flex items-center justify-center border ${isSelected ? 'bg-green-500 border-green-500 text-white' : 'border-slate-300'}`}>
+                    {isSelected && <i className="fas fa-check text-[10px]"></i>}
+                  </div>
+                  <span className="font-bold text-sm">{t.conditions[condition] || condition}</span>
+                </button>
+
+                {isSelected && (
+                  <div className="px-4 pb-2 space-y-2 animate-in slide-in-from-top-2 duration-200">
+                    {t.condition_questions?.[condition] && (
+                      <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-1">
+                        {t.condition_questions[condition]}
+                      </p>
+                    )}
+                    <div className="space-y-2">
+                      {subOptions.length > 0 && (
+                        <select
+                          className="w-full p-2 bg-white border border-green-200 rounded-lg text-xs font-medium focus:ring-2 focus:ring-green-500 outline-none"
+                          value={subOptions.includes(currentValue) ? currentValue : ""}
+                          onChange={(e) => updateConditionValue(condition, e.target.value)}
+                        >
+                          <option value="">{t.select_type}...</option>
+                          {subOptions.map((opt: string) => (
+                            <option key={opt} value={opt}>{opt}</option>
+                          ))}
+                        </select>
+                      )}
+                      <input
+                        type="text"
+                        placeholder={t.detail_placeholder || "Specific details..."}
+                        className="w-full p-2 bg-white border border-slate-200 rounded-lg text-xs focus:ring-2 focus:ring-green-500 outline-none"
+                        value={!subOptions.includes(currentValue) ? currentValue : ""}
+                        onChange={(e) => updateConditionValue(condition, e.target.value)}
+                      />
+                    </div>
+                  </div>
+                )}
               </div>
-              <span className="font-medium text-sm">{t.conditions[condition] || condition}</span>
-            </button>
-          ))}
+            );
+          })}
         </div>
 
         <div className="pt-6 flex gap-4">
@@ -351,7 +506,10 @@ const App: React.FC = () => {
           </div>
           <div className="text-right">
             <p className="text-sm font-bold text-slate-400 uppercase tracking-widest">{t.bmi_report}</p>
-            <p className="text-3xl font-black">{bmiData.bmi}</p>
+            <div className="flex items-baseline justify-end gap-2">
+              <span className="text-sm font-bold text-slate-600">{bmiData.label}</span>
+              <p className="text-3xl font-black">{bmiData.bmi}</p>
+            </div>
           </div>
         </div>
         
@@ -415,7 +573,10 @@ const App: React.FC = () => {
             </div>
             <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100 text-right">
               <span className="block text-xs font-bold text-slate-400 uppercase tracking-widest">{t.bmi_report}</span>
-              <span className="text-2xl font-black text-slate-800">{bmiData.bmi}</span>
+              <div className="flex items-baseline justify-end gap-2">
+                <span className={`text-sm font-bold ${bmiData.color}`}>{bmiData.label}</span>
+                <span className="text-2xl font-black text-slate-800">{bmiData.bmi}</span>
+              </div>
             </div>
           </div>
 
@@ -441,7 +602,7 @@ const App: React.FC = () => {
                   ))}
                 </ul>
               </div>
-              <button onClick={() => window.open('https://www.nanopharm.az', '_blank')} className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
+              <button onClick={() => window.open('https://www.aznanovit.com', '_blank')} className="w-full bg-amber-600 hover:bg-amber-700 text-white font-bold py-3 px-6 rounded-xl transition-all flex items-center justify-center gap-2">
                 <i className="fas fa-shopping-cart"></i> {t.order_now}
               </button>
             </div>
@@ -506,7 +667,7 @@ const App: React.FC = () => {
     <div className="min-h-screen pb-20 bg-[#f8fafc]">
       <nav className="bg-white/80 backdrop-blur-md border-b border-slate-200 py-4 px-6 mb-12 sticky top-0 z-50 shadow-sm no-print">
         <div className="max-w-7xl mx-auto flex justify-between items-center gap-4">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => setStep(0)}>
             <div className="w-10 h-10 bg-green-600 rounded-xl flex items-center justify-center text-white shadow-lg">
               <i className="fas fa-hand-holding-heart text-lg"></i>
             </div>
@@ -518,12 +679,15 @@ const App: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-4">
-            <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{t.nav_phase} {step}/4</span>
+            {step > 0 && (
+              <span className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em]">{t.nav_phase} {step}/4</span>
+            )}
           </div>
         </div>
       </nav>
 
       <main className="px-6">
+        {step === 0 && renderLandingPage()}
         {step === 1 && renderStep1()}
         {step === 2 && renderStep2()}
         {step === 3 && renderStep3()}

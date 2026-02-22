@@ -4,6 +4,15 @@ import { Language, OrganType } from './types';
 export const TRANSLATIONS: Record<Language, any> = {
   az: {
     title: 'VitalBalance AI',
+    landing_title: 'Süni İntellekt ilə Sağlamlığınızın Qayğısına Qalın',
+    landing_subtitle: 'İnteraktiv bədən xəritəsi və Gemini AI texnologiyası ilə fərdi qidalanma və vitamin planınızı əldə edin.',
+    landing_start: 'Analizə Başla',
+    feature1_title: 'İnteraktiv Xəritə',
+    feature1_desc: 'Bədəninizin hansı hissəsinə dəstək lazım olduğunu vizual olaraq seçin.',
+    feature2_title: 'AI Analiz',
+    feature2_desc: 'Gemini AI profilinizi analiz edərək sizə ən uyğun tövsiyələri verir.',
+    feature3_title: 'Həftəlik Plan',
+    feature3_desc: 'Sizin üçün xüsusi hazırlanmış 7 günlük qidalanma və həyat tərzi planı.',
     nav_phase: 'Mərhələ',
     step1_title: 'Şəxsi Sağlamlıq Profili',
     step1_desc: 'Sağlam analiz üçün əsas məlumatları qeyd edin.',
@@ -27,6 +36,7 @@ export const TRANSLATIONS: Record<Language, any> = {
     step3_title: 'Sağlamlıq Tarixçəsi',
     step3_desc: 'Xroniki xəstəlikləri qeyd edin ki, planınızı fərdiləşdirək.',
     medical_concerns: 'Xroniki Xəstəliklər və Narahatlıqlar',
+    select_type: 'Növü seçin',
     generate_plan: 'Sağlam Planımı Hazırla',
     analyzing: 'Analiz edilir...',
     report_title: 'Sizin Sağlamlıq Hesabatınız',
@@ -54,6 +64,13 @@ export const TRANSLATIONS: Record<Language, any> = {
     modal_success: 'Müraciət qəbul edildi!',
     modal_success_desc: 'Məsləhətçimiz 24 saat ərzində sizinlə əlaqə saxlayacaq.',
     close: 'Bağla',
+    detail_placeholder: 'Ətraflı məlumat (məs. dərmanlar, məhsul adları)...',
+    bmi_categories: {
+      underweight: 'Çəki azlığı',
+      normal: 'Normal',
+      overweight: 'Artıq çəki',
+      obese: 'Piylənmə'
+    },
     organs: {
       [OrganType.BRAIN]: 'Beyin',
       [OrganType.EYES]: 'Gözlər',
@@ -65,9 +82,20 @@ export const TRANSLATIONS: Record<Language, any> = {
       [OrganType.BONES]: 'Sümüklər və Oynaqlar',
       [OrganType.SKIN]: 'Dəri və Saç'
     },
+    organ_descriptions: {
+      [OrganType.BRAIN]: 'Koqnitiv funksiya, diqqət və yaddaş.',
+      [OrganType.EYES]: 'Görmə sağlamlığı və ekran yorğunluğu.',
+      [OrganType.HEART]: 'Ürək-damar sağlamlığı və qan dövranı.',
+      [OrganType.LUNGS]: 'Tənəffüs sağlamlığı və oksigenləşmə.',
+      [OrganType.LIVER]: 'Detoksifikasiya və maddələr mübadiləsi.',
+      [OrganType.STOMACH]: 'Həzm və qida maddələrinin udulması.',
+      [OrganType.KIDNEYS]: 'Filtrasiya və maye balansı.',
+      [OrganType.BONES]: 'Skelet gücü və oynaq hərəkətliliyi.',
+      [OrganType.SKIN]: 'Xarici qorunma və regenerasiya.'
+    },
     conditions: {
       'Diabetes': 'Diabet',
-      'Hypertension (High BP)': 'Hipertoniya (Yüksək Təzyiq)',
+      'Hypertension (High BP)': 'Yüksək Təzyiq',
       'Allergies (Food/Seasonal)': 'Allergiyalar',
       'Chronic Fatigue': 'Xroniki Yorğunluq',
       'Asthma': 'Astma',
@@ -77,10 +105,45 @@ export const TRANSLATIONS: Record<Language, any> = {
       'Digestive Issues (IBS/IBD)': 'Həzm Problemləri',
       'Anxiety / Stress': 'Həyəcan / Stress',
       'Sleep Disorders': 'Yuxu Pozğunluqları'
+    },
+    sub_options: {
+      'Diabetes': ['Tip 1', 'Tip 2', 'Gestasional', 'Pre-diabet'],
+      'Hypertension (High BP)': ['Mərhələ 1', 'Mərhələ 2', 'Yüksək Risk', 'Nəzarət altındakı'],
+      'Allergies (Food/Seasonal)': ['Fındıq/Qoz', 'Süd/Laktoza', 'Qlüten', 'Mövsümi/Tozcuq', 'Dərman', 'Digər'],
+      'Chronic Fatigue': ['Post-viral', 'Fibromiyalgiya', 'Tükənmə', 'Naməlum'],
+      'Asthma': ['Yüngül', 'Orta', 'Ağır', 'İdmanla bağlı'],
+      'Thyroid Issues': ['Hipotireoz', 'Hipertireoz', 'Zob', 'Haşimoto'],
+      'Heart Disease': ['Aritmiya', 'Ürək çatışmazlığı', 'İşemiya', 'Qapaq problemi'],
+      'Arthritis / Joint Pain': ['Osteoartrit', 'Revmatoid', 'Podaqra'],
+      'Digestive Issues (IBS/IBD)': ['İBS', 'Qastrit', 'Qlüten həssaslığı', 'Reflüks'],
+      'Anxiety / Stress': ['Yüngül', 'Xroniki', 'Panik', 'Sosial'],
+      'Sleep Disorders': ['Yuxusuzluq', 'Apnoe', 'Narkolepsiya']
+    },
+    condition_questions: {
+      'Diabetes': 'Hansı tip və ya qrup?',
+      'Hypertension (High BP)': 'Hazırkı mərhələniz hansıdır?',
+      'Allergies (Food/Seasonal)': 'Nəyə allergiyanız var? (məs. Fındıq, Tozcuq)',
+      'Chronic Fatigue': 'Yorğunluğunuzu necə təsvir edərdiniz?',
+      'Asthma': 'Ağırlıq dərəcəsi nədir?',
+      'Thyroid Issues': 'Spesifik vəziyyətiniz nədir?',
+      'Heart Disease': 'Diaqnozunuz nədir?',
+      'Arthritis / Joint Pain': 'Hansı növ artrit?',
+      'Digestive Issues (IBS/IBD)': 'Əsas simptomlarınız və ya diaqnozunuz nədir?',
+      'Anxiety / Stress': 'Özünü necə göstərir?',
+      'Sleep Disorders': 'Hansı növ yuxu probleminiz var?'
     }
   },
   ru: {
     title: 'VitalBalance AI',
+    landing_title: 'Заботьтесь о своем здоровье с помощью ИИ',
+    landing_subtitle: 'Получите персональный план питания и витаминов с помощью интерактивной карты тела и технологий Gemini AI.',
+    landing_start: 'Начать анализ',
+    feature1_title: 'Интерактивная карта',
+    feature1_desc: 'Визуально выберите части тела, которым нужна поддержка.',
+    feature2_title: 'ИИ Анализ',
+    feature2_desc: 'Gemini AI анализирует ваш профиль и дает наиболее подходящие рекомендации.',
+    feature3_title: 'Недельный план',
+    feature3_desc: 'Специально разработанный для вас 7-дневный план питания и образа жизни.',
     nav_phase: 'Этап',
     step1_title: 'Профиль здоровья',
     step1_desc: 'Укажите основные данные для анализа.',
@@ -104,6 +167,7 @@ export const TRANSLATIONS: Record<Language, any> = {
     step3_title: 'История здоровья',
     step3_desc: 'Укажите хронические заболевания для персонализации.',
     medical_concerns: 'Хронические заболевания',
+    select_type: 'Выберите тип',
     generate_plan: 'Создать мой план',
     analyzing: 'Анализ...',
     report_title: 'Ваш отчет о здоровье',
@@ -131,6 +195,13 @@ export const TRANSLATIONS: Record<Language, any> = {
     modal_success: 'Заявка принята!',
     modal_success_desc: 'Наш консультант свяжется с вами в течение 24 часов.',
     close: 'Закрыть',
+    detail_placeholder: 'Дополнительные детали (например, лекарства, названия продуктов)...',
+    bmi_categories: {
+      underweight: 'Дефицит веса',
+      normal: 'Норма',
+      overweight: 'Избыточный вес',
+      obese: 'Ожирение'
+    },
     organs: {
       [OrganType.BRAIN]: 'Мозг',
       [OrganType.EYES]: 'Глаза',
@@ -141,6 +212,17 @@ export const TRANSLATIONS: Record<Language, any> = {
       [OrganType.KIDNEYS]: 'Почки',
       [OrganType.BONES]: 'Кости и суставы',
       [OrganType.SKIN]: 'Кожа и волосы'
+    },
+    organ_descriptions: {
+      [OrganType.BRAIN]: 'Когнитивные функции, фокус и память.',
+      [OrganType.EYES]: 'Здоровье зрения и усталость от экрана.',
+      [OrganType.HEART]: 'Сердечно-сосудистое здоровье и кровообращение.',
+      [OrganType.LUNGS]: 'Здоровье дыхательных путей и оксигенация.',
+      [OrganType.LIVER]: 'Детоксикация и метаболизм.',
+      [OrganType.STOMACH]: 'Пищеварение и усвоение питательных веществ.',
+      [OrganType.KIDNEYS]: 'Фильтрация и водный баланс.',
+      [OrganType.BONES]: 'Прочность скелета и подвижность суставов.',
+      [OrganType.SKIN]: 'Внешняя защита и регенерация.'
     },
     conditions: {
       'Diabetes': 'Диабет',
@@ -154,10 +236,45 @@ export const TRANSLATIONS: Record<Language, any> = {
       'Digestive Issues (IBS/IBD)': 'Проблемы с пищеварением',
       'Anxiety / Stress': 'Тревога / Стресс',
       'Sleep Disorders': 'Нарушения сна'
+    },
+    sub_options: {
+      'Diabetes': ['Тип 1', 'Тип 2', 'Гестационный', 'Преддиабет'],
+      'Hypertension (High BP)': ['Стадия 1', 'Стадия 2', 'Криз', 'Контролируемая'],
+      'Allergies (Food/Seasonal)': ['Орехи', 'Молоко/Лактоза', 'Глютен', 'Сезонная/Пыльца', 'Лекарства', 'Другое'],
+      'Chronic Fatigue': ['Поствирусная', 'Фибромиалгия', 'Выгорание', 'Неизвестно'],
+      'Asthma': ['Легкая', 'Средняя', 'Тяжелая', 'При нагрузках'],
+      'Thyroid Issues': ['Гипотиреоз', 'Гипертиреоз', 'Зоб', 'Хашимото'],
+      'Heart Disease': ['Аритмия', 'Сердечная недостаточность', 'Ишемия', 'Клапаны'],
+      'Arthritis / Joint Pain': ['Остеоартрит', 'Ревматоидный', 'Подагра'],
+      'Digestive Issues (IBS/IBD)': ['СРК', 'Гастрит', 'Непереносимость глютена', 'Рефлюкс'],
+      'Anxiety / Stress': ['Легкая', 'Хроническая', 'Паника', 'Социальная'],
+      'Sleep Disorders': ['Бессонница', 'Апноэ', 'Нарколепсия']
+    },
+    condition_questions: {
+      'Diabetes': 'Какой тип или группа?',
+      'Hypertension (High BP)': 'Какая у вас стадия?',
+      'Allergies (Food/Seasonal)': 'На что у вас аллергия? (например, орехи, пыльца)',
+      'Chronic Fatigue': 'Как бы вы описали вашу усталость?',
+      'Asthma': 'Какова степень тяжести?',
+      'Thyroid Issues': 'Какое именно заболевание?',
+      'Heart Disease': 'Какой диагноз?',
+      'Arthritis / Joint Pain': 'Какой тип артрита?',
+      'Digestive Issues (IBS/IBD)': 'Какие основные симптомы или диагноз?',
+      'Anxiety / Stress': 'Как это проявляется?',
+      'Sleep Disorders': 'Какой тип нарушения сна?'
     }
   },
   tr: {
     title: 'VitalBalance AI',
+    landing_title: 'Yapay Zeka ile Sağlığınızı Yönetin',
+    landing_subtitle: 'Etkileşimli vücut haritası ve Gemini AI teknolojisi ile kişiselleştirilmiş beslenme ve vitamin planınızı alın.',
+    landing_start: 'Analize Başla',
+    feature1_title: 'Etkileşimli Harita',
+    feature1_desc: 'Vücudunuzun hangi bölgesine destek gerektiğini görsel olarak seçin.',
+    feature2_title: 'AI Analizi',
+    feature2_desc: 'Gemini AI profilinizi analiz ederek size en uygun önerileri sunar.',
+    feature3_title: 'Haftalık Plan',
+    feature3_desc: 'Sizin için özel olarak hazırlanmış 7 günlük beslenme ve yaşam tarzı planı.',
     nav_phase: 'Aşama',
     step1_title: 'Kişisel Sağlık Profili',
     step1_desc: 'Sağlıklı bir analiz için temel bilgileri girin.',
@@ -181,6 +298,7 @@ export const TRANSLATIONS: Record<Language, any> = {
     step3_title: 'Sağlık Geçmişi',
     step3_desc: 'Planınızı kişiselleştirmek için kronik durumları işaretleyin.',
     medical_concerns: 'Kronik Durumlar',
+    select_type: 'Tür seçin',
     generate_plan: 'Sağlıklı Planımı Oluştur',
     analyzing: 'Analiz ediliyor...',
     report_title: 'Sağlıklı Yaşam Raporunuz',
@@ -208,6 +326,13 @@ export const TRANSLATIONS: Record<Language, any> = {
     modal_success: 'Talep Alındı!',
     modal_success_desc: 'Danışmanımız 24 saat içinde sizi arayacaktır.',
     close: 'Kapat',
+    detail_placeholder: 'Ek detaylar (örn. ilaçlar, ürün adları)...',
+    bmi_categories: {
+      underweight: 'Zayıf',
+      normal: 'Normal',
+      overweight: 'Fazla Kilolu',
+      obese: 'Obez'
+    },
     organs: {
       [OrganType.BRAIN]: 'Beyin',
       [OrganType.EYES]: 'Gözler',
@@ -218,6 +343,17 @@ export const TRANSLATIONS: Record<Language, any> = {
       [OrganType.KIDNEYS]: 'Böbrekler',
       [OrganType.BONES]: 'Kemikler ve Eklemler',
       [OrganType.SKIN]: 'Cilt ve Saç'
+    },
+    organ_descriptions: {
+      [OrganType.BRAIN]: 'Bilişsel işlev, odaklanma ve hafıza.',
+      [OrganType.EYES]: 'Göz sağlığı ve ekran yorgunluğu.',
+      [OrganType.HEART]: 'Kardiyovasküler sağlık ve dolaşım.',
+      [OrganType.LUNGS]: 'Solunum sağlığı ve oksijenasyon.',
+      [OrganType.LIVER]: 'Detoksifikasyon ve metabolizma.',
+      [OrganType.STOMACH]: 'Sindirim ve besin emilimi.',
+      [OrganType.KIDNEYS]: 'Filtrasyon ve sıvı dengesi.',
+      [OrganType.BONES]: 'İskelet gücü ve eklem hareketliliği.',
+      [OrganType.SKIN]: 'Dış koruma ve yenilenme.'
     },
     conditions: {
       'Diabetes': 'Diyabet',
@@ -231,10 +367,31 @@ export const TRANSLATIONS: Record<Language, any> = {
       'Digestive Issues (IBS/IBD)': 'Sindirim Sorunları',
       'Anxiety / Stress': 'Anksiyete / Stres',
       'Sleep Disorders': 'Uyku Bozuklukları'
+    },
+    sub_options: {
+      'Diabetes': ['Tip 1', 'Tip 2', 'Gestasyonel'],
+      'Hypertension (High BP)': ['Evre 1', 'Evre 2', 'Kriz'],
+      'Allergies (Food/Seasonal)': ['Gıda', 'Mevsimsel', 'Toz/Hayvan'],
+      'Asthma': ['Hafif', 'Orta', 'Ağır'],
+      'Thyroid Issues': ['Hipotiroidi', 'Hipertiroidi', 'Guatr'],
+      'Heart Disease': ['Aritmi', 'Kalp yetmezliği', 'İskemi'],
+      'Arthritis / Joint Pain': ['Osteoartrit', 'Romatoid'],
+      'Digestive Issues (IBS/IBD)': ['İBS', 'Gastrit', 'Gluten Hassasiyeti'],
+      'Anxiety / Stress': ['Hafif', 'Kronik', 'Panik'],
+      'Sleep Disorders': ['Uykusuzluk', 'Apne']
     }
   },
   en: {
     title: 'VitalBalance AI',
+    landing_title: 'Optimize Your Health with AI Precision',
+    landing_subtitle: 'Get a personalized nutrition and vitamin plan using our interactive body map and advanced Gemini AI technology.',
+    landing_start: 'Start Free Assessment',
+    feature1_title: 'Interactive Body Map',
+    feature1_desc: 'Visually pinpoint areas where you feel you need more support or vitality.',
+    feature2_title: 'Smart AI Analysis',
+    feature2_desc: 'Gemini AI processes your unique metrics to provide science-backed recommendations.',
+    feature3_title: '7-Day Vitality Plan',
+    feature3_desc: 'Receive a complete weekly meal and lifestyle guide tailored specifically for you.',
     nav_phase: 'Phase',
     step1_title: 'Personal Health Profile',
     step1_desc: 'Provide basic info and physical metrics for a healthy analysis.',
@@ -258,6 +415,7 @@ export const TRANSLATIONS: Record<Language, any> = {
     step3_title: 'Health History',
     step3_desc: 'Check any conditions or allergies so we can personalize your healthy plan.',
     medical_concerns: 'Chronic Conditions & Concerns',
+    select_type: 'Select type',
     generate_plan: 'Generate My Healthy Plan',
     analyzing: 'Analyzing...',
     report_title: 'Your Healthy Vital Report',
@@ -285,6 +443,13 @@ export const TRANSLATIONS: Record<Language, any> = {
     modal_success: 'Request Received!',
     modal_success_desc: 'A consultant will call you back within 24 hours.',
     close: 'Close',
+    detail_placeholder: 'Specific details (e.g. medications, product names)...',
+    bmi_categories: {
+      underweight: 'Underweight',
+      normal: 'Normal',
+      overweight: 'Overweight',
+      obese: 'Obese'
+    },
     organs: {
       [OrganType.BRAIN]: 'Brain',
       [OrganType.EYES]: 'Eyes',
@@ -295,6 +460,17 @@ export const TRANSLATIONS: Record<Language, any> = {
       [OrganType.KIDNEYS]: 'Kidneys',
       [OrganType.BONES]: 'Bones & Joints',
       [OrganType.SKIN]: 'Skin & Hair'
+    },
+    organ_descriptions: {
+      [OrganType.BRAIN]: 'Cognitive function, focus, and memory.',
+      [OrganType.EYES]: 'Visual health and screen-time fatigue.',
+      [OrganType.HEART]: 'Cardiovascular health and circulation.',
+      [OrganType.LUNGS]: 'Respiratory health and oxygenation.',
+      [OrganType.LIVER]: 'Detoxification and metabolism.',
+      [OrganType.STOMACH]: 'Digestion and nutrient absorption.',
+      [OrganType.KIDNEYS]: 'Filtration and fluid balance.',
+      [OrganType.BONES]: 'Skeletal strength and joint mobility.',
+      [OrganType.SKIN]: 'External protection and regeneration.'
     },
     conditions: {
       'Diabetes': 'Diabetes',
@@ -308,10 +484,45 @@ export const TRANSLATIONS: Record<Language, any> = {
       'Digestive Issues (IBS/IBD)': 'Digestive Issues',
       'Anxiety / Stress': 'Anxiety',
       'Sleep Disorders': 'Sleep Disorders'
+    },
+    sub_options: {
+      'Diabetes': ['Type 1', 'Type 2', 'Gestational', 'Pre-diabetes'],
+      'Hypertension (High BP)': ['Stage 1', 'Stage 2', 'Crisis', 'Controlled'],
+      'Allergies (Food/Seasonal)': ['Nuts/Peanuts', 'Dairy/Lactose', 'Gluten', 'Pollen/Seasonal', 'Medicine', 'Other'],
+      'Chronic Fatigue': ['Post-viral', 'Fibromyalgia', 'Burnout', 'Unknown origin'],
+      'Asthma': ['Mild', 'Moderate', 'Severe', 'Exercise-induced'],
+      'Thyroid Issues': ['Hypothyroidism', 'Hyperthyroidism', 'Hashimoto', 'Graves'],
+      'Heart Disease': ['Arrhythmia', 'Heart Failure', 'Coronary Artery Disease', 'Valve Issue'],
+      'Arthritis / Joint Pain': ['Osteoarthritis', 'Rheumatoid', 'Gout', 'Psoriatic'],
+      'Digestive Issues (IBS/IBD)': ['IBS', 'IBD (Crohn/Colitis)', 'Gastritis', 'Acid Reflux', 'Gluten/Celiac'],
+      'Anxiety / Stress': ['Generalized', 'Social', 'Panic Disorder', 'OCD'],
+      'Sleep Disorders': ['Insomnia', 'Apnea', 'Narcolepsy']
+    },
+    condition_questions: {
+      'Diabetes': 'Which type or group?',
+      'Hypertension (High BP)': 'What is your current stage?',
+      'Allergies (Food/Seasonal)': 'What are you allergic to? (e.g. Peanuts, Pollen)',
+      'Chronic Fatigue': 'How would you describe your fatigue?',
+      'Asthma': 'What is the severity?',
+      'Thyroid Issues': 'What is the specific condition?',
+      'Heart Disease': 'What is the diagnosis?',
+      'Arthritis / Joint Pain': 'Which type of arthritis?',
+      'Digestive Issues (IBS/IBD)': 'What are your main symptoms or diagnosis?',
+      'Anxiety / Stress': 'How does it manifest?',
+      'Sleep Disorders': 'What kind of sleep issue?'
     }
   },
   de: {
     title: 'VitalBalance AI',
+    landing_title: 'Optimieren Sie Ihre Gesundheit mit KI',
+    landing_subtitle: 'Erhalten Sie einen personalisierten Ernährungs- und Vitaminplan mit unserer interaktiven Körperkarte und Gemini AI.',
+    landing_start: 'Analyse starten',
+    feature1_title: 'Interaktive Karte',
+    feature1_desc: 'Wählen Sie visuell die Körperbereiche aus, die Unterstützung benötigen.',
+    feature2_title: 'KI-Analyse',
+    feature2_desc: 'Gemini AI analysiert Ihr Profil und gibt maßgeschneiderte Empfehlungen.',
+    feature3_title: 'Wochenplan',
+    feature3_desc: 'Ein speziell für Sie erstellter 7-Tage-Ernährungs- und Lebensstilplan.',
     nav_phase: 'Phase',
     step1_title: 'Persönliches Gesundheitsprofil',
     step1_desc: 'Geben Sie Basisinfos für eine gesunde Analyse ein.',
@@ -335,6 +546,7 @@ export const TRANSLATIONS: Record<Language, any> = {
     step3_title: 'Gesundheitshistorie',
     step3_desc: 'Geben Sie Vorerkrankungen für einen personalisierten Plan an.',
     medical_concerns: 'Chronische Erkrankungen',
+    select_type: 'Typ wählen',
     generate_plan: 'Meinen Plan erstellen',
     analyzing: 'Analyse läuft...',
     report_title: 'Ihr Gesundheitsbericht',
@@ -362,6 +574,13 @@ export const TRANSLATIONS: Record<Language, any> = {
     modal_success: 'Anfrage erhalten!',
     modal_success_desc: 'Ein Berater wird Sie innerhalb von 24 Stunden kontaktieren.',
     close: 'Schließen',
+    detail_placeholder: 'Spezifische Details (z.B. Medikamente, Produktnamen)...',
+    bmi_categories: {
+      underweight: 'Untergewicht',
+      normal: 'Normalgewicht',
+      overweight: 'Übergewicht',
+      obese: 'Adipositas'
+    },
     organs: {
       [OrganType.BRAIN]: 'Gehirn',
       [OrganType.EYES]: 'Augen',
@@ -372,6 +591,17 @@ export const TRANSLATIONS: Record<Language, any> = {
       [OrganType.KIDNEYS]: 'Nieren',
       [OrganType.BONES]: 'Knochen & Gelenke',
       [OrganType.SKIN]: 'Haut & Haare'
+    },
+    organ_descriptions: {
+      [OrganType.BRAIN]: 'Kognitive Funktion, Fokus und Gedächtnis.',
+      [OrganType.EYES]: 'Sehkraft und Bildschirmmüdigkeit.',
+      [OrganType.HEART]: 'Herz-Kreislauf-Gesundheit und Durchblutung.',
+      [OrganType.LUNGS]: 'Atemwegsgesundheit und Sauerstoffversorgung.',
+      [OrganType.LIVER]: 'Entgiftung und Stoffwechsel.',
+      [OrganType.STOMACH]: 'Verdauung und Nährstoffaufnahme.',
+      [OrganType.KIDNEYS]: 'Filtration und Flüssigkeitshaushalt.',
+      [OrganType.BONES]: 'Skelettstärke und Gelenkbeweglichkeit.',
+      [OrganType.SKIN]: 'Äußerer Schutz und Regeneration.'
     },
     conditions: {
       'Diabetes': 'Diabetes',
@@ -385,10 +615,45 @@ export const TRANSLATIONS: Record<Language, any> = {
       'Digestive Issues (IBS/IBD)': 'Verdauungsprobleme',
       'Anxiety / Stress': 'Angst / Stress',
       'Sleep Disorders': 'Schlafstörungen'
+    },
+    sub_options: {
+      'Diabetes': ['Typ 1', 'Typ 2', 'Schwangerschaft', 'Prädiabetes'],
+      'Hypertension (High BP)': ['Stufe 1', 'Stufe 2', 'Krise', 'Kontrolliert'],
+      'Allergies (Food/Seasonal)': ['Nüsse', 'Milch/Laktose', 'Gluten', 'Pollen/Saisonal', 'Medikamente', 'Andere'],
+      'Chronic Fatigue': ['Post-viral', 'Fibromyalgie', 'Burnout', 'Unbekannt'],
+      'Asthma': ['Leicht', 'Mittel', 'Schwer', 'Belastungsasthma'],
+      'Thyroid Issues': ['Hypothyreose', 'Hyperthyreose', 'Hashimoto', 'Basedow'],
+      'Heart Disease': ['Arrhythmie', 'Herzinsuffizienz', 'KHK', 'Klappenfehler'],
+      'Arthritis / Joint Pain': ['Osteoarthrose', 'Rheumatoid', 'Gicht'],
+      'Digestive Issues (IBS/IBD)': ['Reizdarm', 'Gastritis', 'Gluten', 'Reflux'],
+      'Anxiety / Stress': ['Generalisiert', 'Sozial', 'Panik', 'Zwangsstörung'],
+      'Sleep Disorders': ['Insomnie', 'Apnoe', 'Narkolepsie']
+    },
+    condition_questions: {
+      'Diabetes': 'Welcher Typ oder welche Gruppe?',
+      'Hypertension (High BP)': 'In welchem Stadium befinden Sie sich?',
+      'Allergies (Food/Seasonal)': 'Wogegen sind Sie allergisch? (z.B. Nüsse, Pollen)',
+      'Chronic Fatigue': 'Wie würden Sie Ihre Müdigkeit beschreiben?',
+      'Asthma': 'Wie schwer ist es?',
+      'Thyroid Issues': 'Was ist die spezifische Erkrankung?',
+      'Heart Disease': 'Was ist die Diagnose?',
+      'Arthritis / Joint Pain': 'Welche Art von Arthritis?',
+      'Digestive Issues (IBS/IBD)': 'Was sind Ihre Hauptsymptome oder die Diagnose?',
+      'Anxiety / Stress': 'Wie äußert es sich?',
+      'Sleep Disorders': 'Welche Art von Schlafstörung?'
     }
   },
   fr: {
     title: 'VitalBalance AI',
+    landing_title: 'Optimisez votre santé avec l\'IA',
+    landing_subtitle: 'Obtenez un plan de nutrition et de vitamines personnalisé grâce à notre carte corporelle interactive et à l\'IA Gemini.',
+    landing_start: 'Démarrer l\'analyse',
+    feature1_title: 'Carte interactive',
+    feature1_desc: 'Choisissez visuellement les parties du corps qui ont besoin de soutien.',
+    feature2_title: 'Analyse par l\'IA',
+    feature2_desc: 'L\'IA Gemini analyse votre profil et donne les recommandations les plus adaptées.',
+    feature3_title: 'Plan hebdomadaire',
+    feature3_desc: 'Un plan de nutrition et de mode de vie de 7 jours spécialement conçu pour vous.',
     nav_phase: 'Phase',
     step1_title: 'Profil de Santé Personnel',
     step1_desc: 'Saisissez vos données pour une analyse saine.',
@@ -412,6 +677,7 @@ export const TRANSLATIONS: Record<Language, any> = {
     step3_title: 'Historique de santé',
     step3_desc: 'Cochez les conditions pour personnaliser votre plan.',
     medical_concerns: 'Conditions chroniques',
+    select_type: 'Choisir le type',
     generate_plan: 'Générer mon plan',
     analyzing: 'Analyse en cours...',
     report_title: 'Votre rapport de vitalité',
@@ -439,6 +705,13 @@ export const TRANSLATIONS: Record<Language, any> = {
     modal_success: 'Demande reçue !',
     modal_success_desc: 'Un conseiller vous rappellera sous 24 heures.',
     close: 'Fermer',
+    detail_placeholder: 'Détails spécifiques (ex: médicaments, noms de produits)...',
+    bmi_categories: {
+      underweight: 'Insuffisance pondérale',
+      normal: 'Normal',
+      overweight: 'Surpoids',
+      obese: 'Obésité'
+    },
     organs: {
       [OrganType.BRAIN]: 'Cerveau',
       [OrganType.EYES]: 'Yeux',
@@ -449,6 +722,17 @@ export const TRANSLATIONS: Record<Language, any> = {
       [OrganType.KIDNEYS]: 'Reins',
       [OrganType.BONES]: 'Os et Articulations',
       [OrganType.SKIN]: 'Peau et Cheveux'
+    },
+    organ_descriptions: {
+      [OrganType.BRAIN]: 'Fonction cognitive, concentration et mémoire.',
+      [OrganType.EYES]: 'Santé visuelle et fatigue liée aux écrans.',
+      [OrganType.HEART]: 'Santé cardiovasculaire et circulation.',
+      [OrganType.LUNGS]: 'Santé respiratoire et oxygénation.',
+      [OrganType.LIVER]: 'Détoxification et métabolisme.',
+      [OrganType.STOMACH]: 'Digestion et absorption des nutriments.',
+      [OrganType.KIDNEYS]: 'Filtration et équilibre hydrique.',
+      [OrganType.BONES]: 'Force squelettique et mobilité articulaire.',
+      [OrganType.SKIN]: 'Protection externe et régénération.'
     },
     conditions: {
       'Diabetes': 'Diabète',
@@ -462,10 +746,45 @@ export const TRANSLATIONS: Record<Language, any> = {
       'Digestive Issues (IBS/IBD)': 'Problèmes digestifs',
       'Anxiety / Stress': 'Anxiété / Stress',
       'Sleep Disorders': 'Troubles du sommeil'
+    },
+    sub_options: {
+      'Diabetes': ['Type 1', 'Type 2', 'Gestationnel', 'Prédiabète'],
+      'Hypertension (High BP)': ['Stade 1', 'Stade 2', 'Crise', 'Contrôlée'],
+      'Allergies (Food/Seasonal)': ['Noix/Arachides', 'Lait/Lactose', 'Gluten', 'Pollen/Saisonnier', 'Médicaments', 'Autre'],
+      'Chronic Fatigue': ['Post-virale', 'Fibromyalgie', 'Burnout', 'Inconnue'],
+      'Asthma': ['Léger', 'Modéré', 'Sévère', 'D\'effort'],
+      'Thyroid Issues': ['Hypothyroïdie', 'Hyperthyroïdie', 'Hashimoto', 'Basedow'],
+      'Heart Disease': ['Arythmie', 'Insuffisance', 'Coronarienne', 'Valvulaire'],
+      'Arthritis / Joint Pain': ['Arthrose', 'Rhumatoïde', 'Goutte'],
+      'Digestive Issues (IBS/IBD)': ['SII', 'Gastrite', 'Gluten', 'Reflux'],
+      'Anxiety / Stress': ['Généralisée', 'Sociale', 'Panique', 'TOC'],
+      'Sleep Disorders': ['Insomnie', 'Apnée', 'Narcolepsie']
+    },
+    condition_questions: {
+      'Diabetes': 'Quel type ou groupe ?',
+      'Hypertension (High BP)': 'Quel est votre stade actuel ?',
+      'Allergies (Food/Seasonal)': 'À quoi êtes-vous allergique ? (ex: Arachides, Pollen)',
+      'Chronic Fatigue': 'Comment décririez-vous votre fatigue ?',
+      'Asthma': 'Quelle est la gravité ?',
+      'Thyroid Issues': 'Quelle est la condition spécifique ?',
+      'Heart Disease': 'Quel est le diagnostic ?',
+      'Arthritis / Joint Pain': 'Quel type d\'arthrite ?',
+      'Digestive Issues (IBS/IBD)': 'Quels sont vos principaux symptômes ou diagnostic ?',
+      'Anxiety / Stress': 'Comment cela se manifeste-t-il ?',
+      'Sleep Disorders': 'Quel type de trouble du sommeil ?'
     }
   },
   th: {
     title: 'VitalBalance AI',
+    landing_title: 'เพิ่มประสิทธิภาพสุขภาพของคุณด้วย AI',
+    landing_subtitle: 'รับแผนโภชนาการและวิตามินส่วนบุคคลโดยใช้แผนที่ร่างกายแบบโต้ตอบและเทคโนโลยี Gemini AI',
+    landing_start: 'เริ่มการประเมิน',
+    feature1_title: 'แผนที่ร่างกาย',
+    feature1_desc: 'เลือกส่วนของร่างกายที่ต้องการการสนับสนุนหรือความมีชีวิตชีวาด้วยตนเอง',
+    feature2_title: 'การวิเคราะห์ด้วย AI',
+    feature2_desc: 'Gemini AI ประมวลผลข้อมูลเฉพาะของคุณเพื่อรับคำแนะนำที่ได้รับการสนับสนุนทางวิทยาศาสตร์',
+    feature3_title: 'แผนสุขภาพ 7 วัน',
+    feature3_desc: 'รับคู่มืออาหารและไลฟ์สไตล์รายสัปดาห์ที่สมบูรณ์แบบซึ่งออกแบบมาเพื่อคุณโดยเฉพาะ',
     nav_phase: 'ระยะ',
     step1_title: 'ข้อมูลสุขภาพส่วนบุคคล',
     step1_desc: 'ระบุข้อมูลพื้นฐานเพื่อการวิเคราะห์สุขภาพ',
@@ -489,6 +808,7 @@ export const TRANSLATIONS: Record<Language, any> = {
     step3_title: 'ประวัติสุขภาพ',
     step3_desc: 'ระบุโรคประจำตัวเพื่อปรับแต่งแผนสุขภาพของคุณ',
     medical_concerns: 'โรคประจำตัวและข้อกังวล',
+    select_type: 'เลือกประเภท',
     generate_plan: 'สร้างแผนสุขภาพของฉัน',
     analyzing: 'กำลังวิเคราะห์...',
     report_title: 'รายงานสุขภาพของคุณ',
@@ -516,6 +836,13 @@ export const TRANSLATIONS: Record<Language, any> = {
     modal_success: 'ได้รับคำขอแล้ว!',
     modal_success_desc: 'ที่ปรึกษาจะติดต่อกลับภายใน 24 ชั่วโมง',
     close: 'ปิด',
+    detail_placeholder: 'รายละเอียดเฉพาะ (เช่น ยา, ชื่อผลิตภัณฑ์)...',
+    bmi_categories: {
+      underweight: 'น้ำหนักน้อย',
+      normal: 'ปกติ',
+      overweight: 'น้ำหนักเกิน',
+      obese: 'โรคอ้วน'
+    },
     organs: {
       [OrganType.BRAIN]: 'สมอง',
       [OrganType.EYES]: 'ดวงตา',
@@ -526,6 +853,17 @@ export const TRANSLATIONS: Record<Language, any> = {
       [OrganType.KIDNEYS]: 'ไต',
       [OrganType.BONES]: 'กระดูกและข้อ',
       [OrganType.SKIN]: 'ผิวหนังและเส้นผม'
+    },
+    organ_descriptions: {
+      [OrganType.BRAIN]: 'การทำงานของสมอง สมาธิ และความจำ',
+      [OrganType.EYES]: 'สุขภาพการมองเห็นและความเหนื่อยล้าจากการใช้สายตา',
+      [OrganType.HEART]: 'สุขภาพหัวใจและหลอดเลือดและการไหลเวียนโลหิต',
+      [OrganType.LUNGS]: 'สุขภาพทางเดินหายใจและการรับออกซิเจน',
+      [OrganType.LIVER]: 'การล้างพิษและการเผาผลาญ',
+      [OrganType.STOMACH]: 'การย่อยอาหารและการดูดซึมสารอาหาร',
+      [OrganType.KIDNEYS]: 'การกรองและความสมดุลของของเหลว',
+      [OrganType.BONES]: 'ความแข็งแรงของโครงกระดูกและการเคลื่อนไหวของข้อต่อ',
+      [OrganType.SKIN]: 'การป้องกันภายนอกและการสร้างใหม่'
     },
     conditions: {
       'Diabetes': 'เบาหวาน',
@@ -539,6 +877,32 @@ export const TRANSLATIONS: Record<Language, any> = {
       'Digestive Issues (IBS/IBD)': 'ปัญหาการย่อยอาหาร',
       'Anxiety / Stress': 'ความวิตกกังวล / ความเครียด',
       'Sleep Disorders': 'ความผิดปกติของการนอน'
+    },
+    sub_options: {
+      'Diabetes': ['ประเภทที่ 1', 'ประเภทที่ 2', 'ขณะตั้งครรภ์', 'ก่อนเบาหวาน'],
+      'Hypertension (High BP)': ['ระยะที่ 1', 'ระยะที่ 2', 'ภาวะวิกฤต', 'ควบคุมได้'],
+      'Allergies (Food/Seasonal)': ['ถั่ว', 'นม/แลคโตส', 'กลูเตน', 'ละอองเกสร/ตามฤดูกาล', 'ยา', 'อื่นๆ'],
+      'Chronic Fatigue': ['หลังติดเชื้อไวรัส', 'ไฟโบรมัยอัลเจีย', 'ภาวะหมดไฟ', 'ไม่ทราบสาเหตุ'],
+      'Asthma': ['เล็กน้อย', 'ปานกลาง', 'รุนแรง', 'จากการออกกำลังกาย'],
+      'Thyroid Issues': ['ไทรอยด์ต่ำ', 'ไทรอยด์สูง', 'ฮาชิโมโตะ', 'เกรฟส์'],
+      'Heart Disease': ['หัวใจเต้นผิดจังหวะ', 'หัวใจล้มเหลว', 'หลอดเลือดหัวใจ', 'ลิ้นหัวใจ'],
+      'Arthritis / Joint Pain': ['ข้อเสื่อม', 'รูมาตอยด์', 'เก๊าท์'],
+      'Digestive Issues (IBS/IBD)': ['ลำไส้แปรปรวน', 'กระเพาะอักเสบ', 'แพ้กลูเตน', 'กรดไหลย้อน'],
+      'Anxiety / Stress': ['ทั่วไป', 'สังคม', 'ตื่นตระหนก', 'ย้ำคิดย้ำทำ'],
+      'Sleep Disorders': ['นอนไม่หลับ', 'หยุดหายใจขณะหลับ', 'ลมหลับ']
+    },
+    condition_questions: {
+      'Diabetes': 'ประเภทหรือกลุ่มใด?',
+      'Hypertension (High BP)': 'ระยะปัจจุบันของคุณคืออะไร?',
+      'Allergies (Food/Seasonal)': 'คุณแพ้อะไร? (เช่น ถั่ว, ละอองเกสร)',
+      'Chronic Fatigue': 'คุณจะอธิบายความเหนื่อยล้าของคุณอย่างไร?',
+      'Asthma': 'ความรุนแรงระดับใด?',
+      'Thyroid Issues': 'สภาวะเฉพาะคืออะไร?',
+      'Heart Disease': 'การวินิจฉัยคืออะไร?',
+      'Arthritis / Joint Pain': 'โรคข้ออักเสบชนิดใด?',
+      'Digestive Issues (IBS/IBD)': 'อาการหลักหรือการวินิจฉัยของคุณคืออะไร?',
+      'Anxiety / Stress': 'อาการแสดงออกมาอย่างไร?',
+      'Sleep Disorders': 'ปัญหาการนอนหลับประเภทใด?'
     }
   }
 };
